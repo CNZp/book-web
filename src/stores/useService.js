@@ -28,14 +28,14 @@ export const useService = ({ type }) => {
 	const pageReading = ref(false);
 	const bookSearchValue = ref('');
 	const bookPage = usePage({
-		url: '/api/book',
+		url: '/bapi/book',
 		defaultQuery: { type },
 	});
 	const selectedBook = ref(null);
 	const selectedPage = ref(null);
 	const pageSearchValue = ref('');
 	const pagePage = usePage({
-		url: '/api/page',
+		url: '/bapi/page',
 	});
 	const editingBook = ref(null);
 	const editingPage = ref(null);
@@ -45,7 +45,7 @@ export const useService = ({ type }) => {
 	function queryDefaultBook() {
 		global.showLoading();
 		request
-			.get('/api/book/default?type=' + type)
+			.get('/bapi/book/default?type=' + type)
 			.then((res) => {
 				selectBook(res.data);
 				global.hideLoading();
@@ -91,7 +91,7 @@ export const useService = ({ type }) => {
 		if (page?.id) {
 			global.showLoading();
 			request
-				.get('/api/page/' + page.id)
+				.get('/bapi/page/' + page.id)
 				.then((res) => {
 					let resPage = res.data;
 					if (resPage) {
@@ -145,7 +145,10 @@ export const useService = ({ type }) => {
 		let data = selectedBook.value;
 		if (data?.id) {
 			request
-				.post('/api/book/changeDefaultBook', data)
+				.post(
+					'/bapi/book/changeDefaultBook',
+					data
+				)
 				.then((res) => {
 					bookPage.reload();
 					selectBook(res.data);
@@ -181,7 +184,7 @@ export const useService = ({ type }) => {
 		let data = editingBook.value;
 		if (data.id) {
 			request
-				.patch('/api/book/', data.id, data)
+				.patch('/bapi/book/', data.id, data)
 				.then((res) => {
 					editingBook.value = null;
 					bookSelecting.value = false;
@@ -190,7 +193,7 @@ export const useService = ({ type }) => {
 				});
 		} else {
 			request
-				.post('/api/book/add', data)
+				.post('/bapi/book/add', data)
 				.then((res) => {
 					editingBook.value = null;
 					bookSelecting.value = false;
@@ -244,7 +247,7 @@ export const useService = ({ type }) => {
 		if (data?.id) {
 			data.isFavorite = !data.isFavorite;
 			request
-				.patch('/api/page', data.id, data)
+				.patch('/bapi/page', data.id, data)
 				.then((res) => {
 					pagePage.reload();
 					selectedPage.value = res.data;
@@ -328,7 +331,7 @@ export const useService = ({ type }) => {
 		if (data.id) {
 			global.showLoading();
 			request
-				.patch('/api/page', data.id, data)
+				.patch('/bapi/page', data.id, data)
 				.then((res) => {
 					enterPage(res.data);
 					editingPage.value = null;
@@ -337,7 +340,7 @@ export const useService = ({ type }) => {
 				});
 		} else {
 			request
-				.post('/api/page/add', data)
+				.post('/bapi/page/add', data)
 				.then((res) => {
 					enterPage(res.data);
 					editingPage.value = null;

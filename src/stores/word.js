@@ -23,7 +23,7 @@ export const useWordStore = defineStore(
 			service.global.showLoading();
 			if (title && bookId) {
 				request
-					.post('/api/trans', { bookId, title })
+					.post('/bapi/trans', { bookId, title })
 					.then((res) => {
 						if (res.data) {
 							service.enterPage(res.data);

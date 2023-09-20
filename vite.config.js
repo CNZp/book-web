@@ -12,10 +12,11 @@ export default defineConfig({
 	],
 	server: {
 		proxy: {
-			'/api': {
-				target: 'http://localhost:3000/api', // 代理的目标地址
+			'/bapi': {
+				target: 'http://localhost:3001/bapi', // 代理的目标地址
 				changeOrigin: true, // 改变请求头中的 Origin 值
-				rewrite: (path) => path.replace(/^\/api/, ''), // 重写请求路径，去掉前缀
+				rewrite: (path) =>
+					path.replace(/^\/bapi/, ''), // 重写请求路径，去掉前缀
 			},
 		},
 	},

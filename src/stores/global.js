@@ -55,7 +55,7 @@ export const useGlobalStore = defineStore(
 
 		const login = function (username, password) {
 			request
-				.post('/api/auth/signin', {
+				.post('/bapi/auth/signin', {
 					username,
 					password,
 				})

@@ -30,7 +30,7 @@ export const useScheduleStore = defineStore(
 
 		function querySchedules() {
 			request
-				.get('/api/schedule', {
+				.get('/bapi/schedule', {
 					bookId: service.selectedBook.value?.id,
 				})
 				.then((res) => {
