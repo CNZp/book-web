@@ -11,6 +11,7 @@ export default defineConfig({
 		}),
 	],
 	server: {
+		// host: '10.125.8.214',
 		proxy: {
 			'/bapi': {
 				target: 'http://localhost:3001/bapi', // 代理的目标地址

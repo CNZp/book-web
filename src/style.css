@@ -35,12 +35,18 @@ a:hover {
 	color: #535bf2;
 }
 
+html {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
 body {
 	margin: 0;
 	display: flex;
 	place-items: center;
-	min-width: 320px;
-	min-height: 100vh;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
 }
 
 h1 {
@@ -93,15 +99,17 @@ button:focus-visible {
 
 #app {
 	overflow: hidden;
+	height: 100%;
+	width: 100%;
 }
 
 /* 竖屏或宽度980以内 */
-@media (orientation: portrait) or (max-width: 780px) {
+/* @media (orientation: portrait) or (max-width: 780px) {
 	#app {
-		height: 100vh;
-		width: 100vw;
+		height: 100%;
+		width: 100%;
 	}
-}
+} */
 
 @media (orientation: landscape) and (min-width: 780px) {
 	body {
@@ -109,7 +117,7 @@ button:focus-visible {
 		overflow: hidden;
 	}
 	#app {
-		height: 90vh;
+		height: 90%;
 		width: 780px;
 		border-radius: 10px;
 		border: 5px solid #ffffff;
@@ -119,6 +127,7 @@ button:focus-visible {
 
 .layout-box {
 	height: 100%;
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	background-color: #eff2f5;
