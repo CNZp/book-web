@@ -76,14 +76,14 @@ const copyLog = async () => {
 		>
 			<h3 class="log-title" v-if="idx === 0">
 				{{ text }}
-				<van-button
+				<!-- <van-button
 					v-if="text != '暂无内容'"
 					style="margin-left: 5px"
 					type="primary"
 					size="small"
 					@click="copyLog"
 					>复制</van-button
-				>
+				> -->
 			</h3>
 			<p class="log-p" v-else>
 				{{ text }}

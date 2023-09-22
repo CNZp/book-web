@@ -41,14 +41,14 @@ instance.interceptors.response.use(
 		const global = useGlobalStore();
 		global.hideLoading();
 		console.error('请求发生错误:', error);
-		if (error.response.status === 401) {
-			showFailToast('无权访问');
-		} else if (
+		if (
 			error.code === 'ECONNABORTED' ||
 			error.message === 'Network Error' ||
 			error.message.includes('timeout')
 		) {
 			showFailToast('请求超时');
+		} else if (error.response.status === 401) {
+			showFailToast('无权访问');
 		} else {
 			showFailToast('请求异常');
 		}

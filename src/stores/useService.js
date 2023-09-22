@@ -165,7 +165,7 @@ export const useService = ({ type }) => {
 				let data = selectedBook.value;
 				if (data?.id) {
 					request
-						.delete('api/book', data.id)
+						.delete('/bapi/book', data.id)
 						.then(() => {
 							bookPage.reload();
 							queryDefaultBook();
@@ -229,7 +229,7 @@ export const useService = ({ type }) => {
 				let data = selectedPage.value;
 				if (data?.id) {
 					request
-						.delete('api/page', data.id)
+						.delete('/bapi/page', data.id)
 						.then(() => {
 							pagePage.reload();
 							leavePage(true);
