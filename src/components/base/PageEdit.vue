@@ -4,7 +4,7 @@ import SectionTag from './SectionTag.vue';
 
 let { store } = defineProps({
 	store: Object,
-	canEditTitle: { type: Boolean, default: true },
+	canEditRoot: { type: Boolean, default: true },
 });
 
 const activeNames = ref([]);
@@ -26,7 +26,7 @@ function addSection() {
 
 <template>
 	<div class="body" ref="container">
-		<van-cell-group title="页面" inset>
+		<van-cell-group class="area" inset>
 			<van-field
 				v-model="store.editingPage.title"
 				left-icon="font-o"
@@ -36,20 +36,24 @@ function addSection() {
 				maxlength="100"
 				placeholder="请输入页面标题"
 				class="title-cell"
-				:readonly="!canEditTitle"
+				:readonly="!canEditRoot"
 			/>
 			<van-field
+				v-if="
+					canEditRoot || store.editingPage.content
+				"
 				v-model="store.editingPage.content"
-				rows="2"
+				rows="1"
 				left-icon="notes-o"
 				autosize
 				type="textarea"
 				maxlength="200"
-				placeholder="请输入页面内容"
-				show-word-limit
+				placeholder="请输入页面概述"
+				:show-word-limit="canEditRoot"
+				:readonly="!canEditRoot"
 			/>
 		</van-cell-group>
-		<van-cell-group title="段落" inset>
+		<van-cell-group class="area" inset>
 			<van-empty
 				v-if="
 					store.editingPage.sections.length === 0
@@ -223,6 +227,9 @@ function addSection() {
 </template>
 
 <style scoped lang="scss">
+.area {
+	margin-top: 20px;
+}
 .body {
 	padding-bottom: 20px;
 	.title-cell {

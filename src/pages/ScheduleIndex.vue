@@ -6,8 +6,29 @@ import { useScheduleStore } from '../stores/schedule';
 import Page from '../components/base/Page.vue';
 import BookEdit from '../components/base/BookEdit.vue';
 import ScheduleCalendar from '../components/ScheduleCalendar.vue';
+import { ref } from 'vue';
+import { showSuccessToast } from 'vant';
 
 const store = useScheduleStore();
+
+const showWorklog = ref(false);
+
+const pageActions = [
+	{
+		name: '生成工作日志',
+		func: function () {
+			showWorklog.value = true;
+		},
+	},
+];
+
+const copyLog = async () => {
+	let results = store.getWorklogTexts();
+	await navigator.clipboard.writeText(
+		results.join('\r\n')
+	);
+	showSuccessToast('复制成功');
+};
 </script>
 
 <template>
@@ -21,8 +42,9 @@ const store = useScheduleStore();
 	/>
 	<Page
 		:store="store"
-		:can-edit-title="false"
+		:can-edit-root="false"
 		v-else-if="store.pageReading"
+		:customActions="pageActions"
 	/>
 	<Book
 		:store="store"
@@ -34,6 +56,50 @@ const store = useScheduleStore();
 		</template>
 	</Book>
 	<BookEmpty :store="store" v-else />
+
+	<van-popup
+		v-model:show="showWorklog"
+		teleport="#app"
+		position="bottom"
+		closeable
+		lazy-render
+		:style="{
+			padding: '32px',
+			'max-height': '80%',
+		}"
+	>
+		<template
+			v-for="(
+				text, idx
+			) in store.getWorklogTexts()"
+			:key="idx"
+		>
+			<h3 class="log-title" v-if="idx === 0">
+				{{ text }}
+				<van-button
+					v-if="text != '暂无内容'"
+					style="margin-left: 5px"
+					type="primary"
+					size="small"
+					@click="copyLog"
+					>复制</van-button
+				>
+			</h3>
+			<p class="log-p" v-else>
+				{{ text }}
+			</p>
+		</template>
+	</van-popup>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.log-title {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.log-p {
+	margin-block-start: 0.5em;
+	margin-block-end: 0.5em;
+}
+</style>

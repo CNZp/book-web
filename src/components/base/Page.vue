@@ -8,10 +8,13 @@ import PageRead from './PageRead.vue';
 import { showConfirmDialog } from 'vant';
 import FontIcon from './FontIcon.vue';
 
-let { store } = defineProps({
+let props = defineProps({
 	store: Object,
-	canEditTitle: { type: Boolean, default: true },
+	canEditRoot: { type: Boolean, default: true },
+	customActions: { type: Array },
 });
+
+let { store } = props;
 
 const show = ref(false);
 
@@ -26,7 +29,9 @@ const actions = computed(() => {
 			color: '#ee0a24',
 		},
 	];
-
+	if (props.customActions?.length) {
+		actions = actions.concat(props.customActions);
+	}
 	return actions;
 });
 
@@ -38,6 +43,8 @@ function onSelect(item) {
 		store.changeFavoritePage();
 	} else if (item.name === '删除') {
 		store.removePage();
+	} else if (typeof item.func === 'function') {
+		item.func();
 	}
 	show.value = false;
 }
@@ -85,14 +92,14 @@ function onBack() {
 		<PageEdit
 			v-if="store.editingPage"
 			:store="store"
-			:canEditTitle="canEditTitle"
+			:canEditRoot="canEditRoot"
 		/>
 		<PageRead v-else :store="store" />
 	</div>
 	<van-action-sheet
 		v-model:show="show"
 		:actions="actions"
-		:title="'管理' + store.typeLabel + '本'"
+		title="管理页面"
 		@select="onSelect"
 	></van-action-sheet>
 </template>

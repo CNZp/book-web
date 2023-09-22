@@ -52,6 +52,53 @@ export const useScheduleStore = defineStore(
 			}
 		}
 
+		function getWorklogTexts() {
+			let results = [];
+			let page = service.selectedPage.value;
+			if (page?.sections?.length) {
+				results.push(page.title);
+				let index = 1;
+				(page.sections || []).forEach(
+					(section) => {
+						let texts = [];
+						let title = (
+							section.title || ''
+						).trim();
+						if (title) {
+							texts.push(index++);
+							texts.push('、');
+							texts.push(title);
+							if (
+								!title.endsWith('.') &&
+								!title.endsWith('。')
+							) {
+								texts.push('。');
+							}
+							let content = (
+								section.content || ''
+							).trim();
+							if (content) {
+								texts.push(content);
+								if (
+									!content.endsWith('.') &&
+									!content.endsWith('。')
+								) {
+									texts.push('。');
+								}
+							}
+						}
+						if (texts.length) {
+							results.push(texts.join(''));
+						}
+					}
+				);
+			}
+			if (!results.length) {
+				results.push('暂无内容');
+			}
+			return results;
+		}
+
 		return {
 			...service,
 			existSchedules,
@@ -59,6 +106,7 @@ export const useScheduleStore = defineStore(
 			checkScheduleExist,
 			enterSchedule,
 			dateToTitle,
+			getWorklogTexts,
 			typeStateDict: [
 				{ text: '无状态', value: '' },
 				{ text: '待办', value: '0' },

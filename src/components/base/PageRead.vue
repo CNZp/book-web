@@ -10,10 +10,9 @@ const container = ref();
 effect(() => {
 	let newActiveNames = [];
 	if (store && store.selectedPage) {
-		newActiveNames =
-			store.selectedPage.sections.map(
-				(section) => section.uuid
-			);
+		newActiveNames = store.selectedPage.sections
+			.filter((section) => section.content)
+			.map((section) => section.uuid);
 	}
 	activeNames.value = newActiveNames;
 });
@@ -21,7 +20,7 @@ effect(() => {
 
 <template>
 	<div class="body" ref="container">
-		<van-cell-group title="页面" inset>
+		<van-cell-group class="area" inset>
 			<van-field
 				v-model="store.selectedPage.title"
 				rows="1"
@@ -32,15 +31,16 @@ effect(() => {
 				class="title-cell"
 			/>
 			<van-field
+				v-if="store.selectedPage.content"
 				v-model="store.selectedPage.content"
-				rows="2"
+				rows="1"
 				autosize
 				type="textarea"
 				placeholder="暂无页面内容"
 				readonly
 			/>
 		</van-cell-group>
-		<van-cell-group title="段落" inset>
+		<van-cell-group class="area" inset>
 			<van-empty
 				v-if="
 					store.selectedPage.sections.length === 0
@@ -109,6 +109,9 @@ effect(() => {
 </template>
 
 <style scoped lang="scss">
+.area {
+	margin-top: 20px;
+}
 .body {
 	padding-bottom: 20px;
 	.title-cell {

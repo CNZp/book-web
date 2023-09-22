@@ -20,7 +20,7 @@ const store = useWordStore();
 	/>
 	<Page
 		:store="store"
-		:can-edit-title="false"
+		:can-edit-root="false"
 		v-else-if="store.pageReading"
 	/>
 	<Book
